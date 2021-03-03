@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class ApplicationMain {
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Введите количество байт:");
@@ -18,59 +19,52 @@ public class ApplicationMain {
             return;
         }
         String bytesFormat;
-        int whatCase = searchCase(bytes);
+        String unitMeasure;
 
-        switch (whatCase) {
-            case 1:
-                bytesFormat = String.format("%.1f", bytes);
-                System.out.println(bytesFormat + " B");
-                break;
-            case 2:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 10));
-                System.out.println(bytesFormat + " KB");
-                break;
-            case 3:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 20));
-                System.out.println(bytesFormat + " MB");
-                break;
-            case 4:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 30));
-                System.out.println(bytesFormat + " GB");
-                break;
-            case 5:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 40));
-                System.out.println(bytesFormat + " TB");
-                break;
-            case 6:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 50));
-                System.out.println(bytesFormat + " PB");
-                break;
-            case 7:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 60));
-                System.out.println(bytesFormat + " EB");
-                break;
-            case 8:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 70));
-                System.out.println(bytesFormat + " ZB");
-                break;
-            default:
-                bytesFormat = String.format("%.1f", bytes / Math.pow(2, 80));
-                System.out.println(bytesFormat + " YB");
-        }
-    }
-
-    private static int searchCase(double bytes) {
         boolean iterationForWhile = true;
         int degree = 10;
-        int whatCase = 0;
+        int whatCase = -1;
 
         while (iterationForWhile) {
             whatCase += 1;
             if (bytes < Math.pow(2, degree)) {
+                bytes = bytes / Math.pow(2, degree - 10);
                 iterationForWhile = false;
             }
             degree += 10;
         }
-        return whatCase;
+
+        switch (whatCase) {
+            case 1:
+                unitMeasure = "KB";
+                break;
+            case 2:
+                unitMeasure = "MB";
+                break;
+            case 3:
+                unitMeasure = "GB";
+                break;
+            case 4:
+                unitMeasure = "TB";
+                break;
+            case 5:
+                unitMeasure = "PB";
+                break;
+            case 6:
+                unitMeasure = "EB";
+                break;
+            case 7:
+                unitMeasure = "ZB";
+                break;
+            case 8:
+                unitMeasure = "YB";
+                break;
+            default:
+                unitMeasure = "B";
+        }
+
+        bytesFormat = String.format("%.1f", bytes);
+        System.out.println(bytesFormat + " " + unitMeasure);
     }
+
 }
